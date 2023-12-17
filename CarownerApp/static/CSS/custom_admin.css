@@ -4,17 +4,50 @@ ul.messagelist li {
     font-size: 0.8125rem;
     padding: 10px 10px 10px 65px;
     margin: 0 0 10px 0;
-    background: #ddf1ff  url(../images/logo5.ico) 40px 12px no-repeat;
+    background: #fefff6  url(../images/logo5.ico) 40px 12px no-repeat;
     background-size: 16px auto;
-    color: var(--body-fg);
+    color: #2b2b2b;
     word-break: break-word;
     white-space: pre-wrap;
-    border-bottom: 4px solid #e5e5e5;
+    border-bottom: 1px solid #000e61c4;
+    border-left: 4px solid #000e61c4;
     justify-content: space-between;
+    cursor: pointer;
+}
+ul.messagelist {
+    background-color: #ebf3f1;
+    padding: 0;
+    margin-top: 6px;
+    border-bottom: 2px solid #ffdada;
 }
 .info1{
-
+    padding-right: 30px;
+    width: 350px;
 }
+.info1.expired{
+    /* color: #ff2f00; */
+}
+.info1.almost_expired{
+    /* color: #ff8400; */
+}
+.block_note{
+    padding-left: 10px;
+}
+.block_note_red{
+    border-left:89px solid rgb(253 98 63);
+    border-bottom:1px solid rgb(253 98 63);
+}
+.block_note_yel{
+    border-left:89px solid rgb(254 187 4);
+    border-bottom:1px solid rgb(254 187 4);
+}
+.block_note_blue{
+    border-bottom: 1px solid #000e61c4;
+    border-left: 89px solid #000e61c4;
+}
+
+
+
 h1 {
     margin: 0 0 20px;
     font-weight: 500;
@@ -29,7 +62,12 @@ table thead th .text a {
     color: #6f6f6f;
 }
 .info2{
-    margin-right: 219px;
+    padding-right: 30px;
+    width: 300px;
+}
+.info3{
+    width: 192px;
+    padding-right: 30px;
 }
 #toolbar form input[type="submit"] {
     border: 1px solid var(--border-color);
