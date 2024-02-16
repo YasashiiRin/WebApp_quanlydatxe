@@ -52,19 +52,6 @@
                                 Profile
                             </a>
                         </li> {% endcomment %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <div class="driver_f--state">
-                                    <i class="fas fa-cog"></i>
-                                    <span>
-                                        Settings <i class="fas fa-angle-down"></i>
-                                    </span>
-                                    
-                                </div>
-                            </a>
-                        
-                        </li>
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item">
@@ -80,7 +67,7 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <p class="block_welcome_driver">Chào mừng quay trở lại , Tài xế <b>{{request.driver.name_driver}}</b></p>
+                    <p class="block_welcome_driver">Chào mừng quay trở lại, Tài xế <b>{{request.driver.name_driver}}</b></p>
                 </div>
 
             </div>
@@ -240,12 +227,14 @@
                             </thead>
                             <tbody>
                                 {% for order in driver_orders%}
-                                <tr class="info_list_order"
+                                {%if order.state_order == 1%}
+                                <tr class="info_list_order state_order_true"
                                 data-order-info-phone = "{{order.customer.phone_customer}}"  
                                 data-order-info-address = "{{order.customer.address_customer}}"  
                                 data-order-info-email = "{{order.customer.email_customer}}" 
                                 data-order-info-name = "{{order.name_customer_order}}" 
                                 data-order-info-img = "{{order.customer.img_customer}}"
+                                data-order-id="{{order.id}}" 
                                 >
                                     <th scope="row"><b>{{order.name_customer_order}}</b></th>
                                     <th scope="row"><b>{{order.name_schedule_order}}</b></th>
@@ -256,6 +245,25 @@
                                     <td><b>{{order.day_schedule}}</b></td>
                                     <td><b class="format_order_price" data-order-price = "{{order.total_price}}"></b></td>
                                 </tr>
+                                {%else%}
+                                <tr class="info_list_order"
+                                data-order-info-phone = "{{order.customer.phone_customer}}"  
+                                data-order-info-address = "{{order.customer.address_customer}}"  
+                                data-order-info-email = "{{order.customer.email_customer}}" 
+                                data-order-info-name = "{{order.name_customer_order}}" 
+                                data-order-info-img = "{{order.customer.img_customer}}"
+                                data-order-id="{{order.id}}" 
+                                >
+                                    <th scope="row"><b>{{order.name_customer_order}}</b></th>
+                                    <th scope="row"><b>{{order.name_schedule_order}}</b></th>
+                                    <td><b>{{order.quantity_slot}}</b></td>
+                                    <td><b>{{order.pickup_location}}</b></td>
+                                    <td><b>{{order.dropoff_location}}</b></td>
+                                    <td>{{order.start_date_time}}</td>
+                                    <td><b>{{order.day_schedule}}</b></td>
+                                    <td><b class="format_order_price" data-order-price = "{{order.total_price}}"></b></td>
+                                </tr>
+                                {%endif%}
                                 {% endfor %}
                             </tbody>
                         </table>
@@ -396,6 +404,13 @@
                       </div>
                       <hr>
                       <hr>
+                      <div class="row">
+                        <div class="col-sm-12 block_button_change">
+                          <div>
+                            <button class="btn btn-info bt_confirm_hh " target="__blank">Xác nhận lên xe</button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
     
@@ -653,19 +668,19 @@
             if (len > 0){
                 arrayScroll[0].classList.add('title_new_active')
             }
-            // chỉnh vị trí scroll về cuối của list order
-            {% comment %} const tm_block_scroll = document.querySelector('.tm-block-scroll')
-            tm_block_scroll.scrollTop = tm_block_scroll.scrollHeight; {% endcomment %}
 
-            // Hiển thị thông tin người đặt từ Danh sách thông báo
+            // Hiển thị thông tin người đặt từ danh sách đơn đặt
             const array_info_customer_order = document.querySelectorAll('.info_list_order')
             array_info_customer_order.forEach(customer => {
                 customer.addEventListener("click", function(){
+                    document.querySelector('.bt_confirm_hh').style.display ='block'
+                    
                     const data_order_info_c_name = this.getAttribute('data-order-info-name')
                     const data_order_info_c_img = this.getAttribute('data-order-info-img')
                     const data_order_info_c_email = this.getAttribute('data-order-info-email')
                     const data_order_info_c_address = this.getAttribute('data-order-info-address')
                     const data_order_info_c_phone = this.getAttribute('data-order-info-phone')
+                    const data_id_order = this.getAttribute('data-order-id')
 
 
                     const container_order_info_customer = document.querySelector('.container_order_info_customer')
@@ -692,6 +707,50 @@
                     container_order_info_exits.onclick=function(){
                         container_order_info_customer.style.display = 'none';
                     }
+                    bt_confirm_hh = document.querySelector('.bt_confirm_hh')
+                    bt_confirm_hh.onclick= function(){
+                        console.log('id_order: ',data_id_order)
+                        const data ={
+                            id_order:data_id_order,
+                          }
+                          fetch('/confirm_car/', {
+                            method: 'POST',
+                            headers: {
+                              "X-CSRFToken": "{{ csrf_token }}",
+                              'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data),
+                          })
+                            .then(response => response.json())
+                            .then(data => {
+                                if(data.message){
+                                    toast({
+                                        title: "Xác nhận thành công!",
+                                        content: "Đã xác nhận người đặt xe này đã lên xe và thanh toán",
+                                        typeicon: "success",
+                                        duration: 8000
+                                    })
+                                }else if(data.error){
+                                    toast({
+                                        title: "Chú ý!",
+                                        content: "Người đặt này đã được xác nhận trước đó!",
+                                        typeicon: "error",
+                                        duration: 8000
+                                    })
+                                }
+                                const dltoast = document.querySelectorAll('.toast-exit');
+                                console.log("button_exit: ",dltoast)
+                                dltoast.forEach(element => {
+                                  element.onclick = function(){
+                                    console.log("is click exits")
+                                    element.parentElement.remove('toast')
+                                  }
+                                })    
+                            })
+                            .catch(error => {
+                              console.error('Đã xảy ra lỗi:', error);
+                            });
+                    }
                 })
             })
 
@@ -699,7 +758,7 @@
 
             arrayScroll.forEach(customer => {
                 customer.addEventListener("click", function(){
-                    
+                    document.querySelector('.bt_confirm_hh').style.display ='none'
 
                     const data_order_info_c_name = this.getAttribute('data-order-info-name')
                     const data_order_info_c_img = this.getAttribute('data-order-info-img')

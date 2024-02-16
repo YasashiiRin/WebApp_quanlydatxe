@@ -997,3 +997,10 @@ font-family: cursive;
 .fa-arrow-left{
   margin-left: 3%;
 }
+
+
+
+
+.info_list_order.state_order_true{
+  color: #00cfff;
+}

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'HomeApp',
     'CarownerApp',
     'DriverApp',
+    'corsheaders',
 
     # ...
     'allauth',
@@ -74,6 +75,13 @@ ACCOUNT_EMAIL_TEMPLATES = {
 }
 
 
+#Cấu hình cho Cors
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080",  # Thay đổi thành địa chỉ frontend của bạn
+    # ...
+]
+
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -99,6 +107,7 @@ MIDDLEWARE = [
 
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
      # ... 
     'allauth.account.middleware.AccountMiddleware',
     # ...

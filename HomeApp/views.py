@@ -232,15 +232,15 @@ def handle_book_vehicle_second(request,schedule_id,customer_id,slot):
                 check_cm.delete()
                 new_order_update = Orders(customer = customer,vehicle = vehicle,schedule=schedule,name_customer_order=name_customer_order, name_driver_order = name_driver_order,name_schedule_order = name_schedule_order , name_vehicle_order = name_vehicle_order , name_carowner_order = name_carowner_order , carowner_id = carowner_id , quantity_slot = slot , pickup_location = pickup_location , dropoff_location = dropoff_location , start_date_time = start_time , dropoff_datetime = end_time, day_schedule =start_day, pickup_daytime = current_datetime ,total_price = total_price ,state_book = 'Đã chỉnh sửa đơn')
                 new_order_update.save()
-                try:
-                    Ic = Income.objects.get(driver = driver)
-                    if Ic:
-                        income = Ic.total_income + total_price - current_price
-                        Ic.total_income = income
-                        Ic.save()
-                except:
-                    Ic = Income(driver = driver , name_driver = driver.name_driver , total_income = total_price)    
-                    Ic.save()
+                # try:
+                #     Ic = Income.objects.get(driver = driver)
+                #     if Ic:
+                #         income = Ic.total_income + total_price - current_price
+                #         Ic.total_income = income
+                #         Ic.save()
+                # except:
+                #     Ic = Income(driver = driver , name_driver = driver.name_driver , total_income = total_price)    
+                #     Ic.save()
                 return JsonResponse({'message': 'Đặt xe thành công'})
             else:
                 return JsonResponse({'error': 'không đủ chỗ '})
@@ -285,16 +285,16 @@ def handle_book_vehicle(request,schedule_id,customer_id,slot):
             schedule.save()
             od = Orders(customer=customer,vehicle= vehicle,schedule=schedule,name_customer_order=name_customer_order, name_driver_order = name_driver_order,name_schedule_order = name_schedule_order , name_vehicle_order = name_vehicle_order , name_carowner_order = name_carowner_order , carowner_id = carowner_id , quantity_slot = slot , pickup_location = pickup_location , dropoff_location = dropoff_location , start_date_time = start_time , dropoff_datetime = end_time, day_schedule =start_day, pickup_daytime =current_datetime,total_price=total_price,state_book = '')
             od.save()
-            try:
-                Ic = Income.objects.get(driver = driver)
-                if Ic:
-                    Ic.total_income = Ic.total_income + total_price
-                    Ic.save()
-                else:
-                    return JsonResponse({'error': 'Thất bại'})
-            except:
-                Ic = Income(driver = driver , name_driver = driver.name_driver , total_income = total_price)    
-                Ic.save()
+            # try:
+            #     Ic = Income.objects.get(driver = driver)
+            #     if Ic:
+            #         Ic.total_income = Ic.total_income + total_price
+            #         Ic.save()
+            #     else:
+            #         return JsonResponse({'error': 'Thất bại'})
+            # except:
+            #     Ic = Income(driver = driver , name_driver = driver.name_driver , total_income = total_price)    
+            #     Ic.save()
             return JsonResponse({'message': 'Đặt xe thành công'})
 
         else:
@@ -320,14 +320,6 @@ def handle_cancel_order(request,idorder):
             order.delete()
             schedule.slot_vehicle = total_slot
             schedule.save()
-            try:
-                Ic = Income.objects.get(driver = driver)
-                if Ic:
-                    Ic.total_income = Ic.total_income - current_price
-                    Ic.save()
-            except:
-                return JsonResponse({'error_Cancel': 'Cancel order failed.......'})
-
             return JsonResponse({'notifiCancel': 'Cancel order Successfull.......'})
         else:
             return JsonResponse({'error_Cancel': 'Cancel order failed.......'})

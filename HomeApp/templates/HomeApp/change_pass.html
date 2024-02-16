@@ -213,14 +213,7 @@
             const pass_customer = "{{pass_customer}}"
             const listinput_info = document.querySelectorAll('.input_item_info')
             console.log(listinput_info)
-            {% comment %} listinput_info.forEach(item =>{
-                item.addEventListener("blur",function(){
-                    console.log("value: ", item.value)
-                    const inputValue = item.value.trim()
-                    const messageDivId = item.id.replace('input','Message')
-                    const messageDiv = document.getElementById(messageDivId);
-                })
-            }) {% endcomment %}
+            
             listinput_info[0].addEventListener("blur",function(){
                 validatePass(listinput_info[0].value,listinput_info[0])
             })

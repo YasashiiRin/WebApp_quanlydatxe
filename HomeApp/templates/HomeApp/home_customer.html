@@ -217,10 +217,10 @@
                                   <td>
                                     {%if schedule.slot_vehicle == 0 %}
                                       <div class="tm-status-circle isfull">
-                                      </div>Is Full
+                                      </div>Hết chỗ
                                     {%else%}
                                       <div class="tm-status-circle notfull">
-                                      </div>Not Full
+                                      </div>Còn chỗ
                                     {%endif%}  
                                   </td>
                                   <td><b>{{schedule.vehicle.type_vehicle}}</b></td>
@@ -331,6 +331,19 @@
     </section>
 
     <section data-aos="fade-up" id="infos__section" class="bg-light">
+          <!--Start of Tawk.to Script-->
+<script type="text/javascript">
+  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+  (function(){
+  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+  s1.async=true;
+  s1.src='https://embed.tawk.to/6582849d07843602b803d983/1hi2tc2rt';
+  s1.charset='UTF-8';
+  s1.setAttribute('crossorigin','*');
+  s0.parentNode.insertBefore(s1,s0);
+  })();
+  </script>
+  <!--End of Tawk.to Script-->
       <div class="container">
         <div class="split">
           <div class="infos__section__card">
@@ -643,6 +656,7 @@
                       })  
                         container.classList.remove("show");
                         invoice.style.display ='none'
+                        setTimeout( () => location.reload(), 2000)
                     } else if (data.error) {
                         const data_err = data.error;
                         toast({
@@ -654,6 +668,7 @@
                       })
                       container.classList.remove("show");
                       invoice.style.display ='none'
+                      setTimeout( () => location.reload(), 2000)
                     }
                     const dltoast = document.querySelectorAll('.toast-exit');
                     console.log("button_exit: ",dltoast)
@@ -689,6 +704,7 @@
                       })  
                         container.classList.remove("show");
                         invoice.style.display ='none'
+                        setTimeout( () => location.reload(), 2000)
                     } else if (data.error) {
                         const data_err = data.error;
                         toast({
@@ -700,6 +716,7 @@
                       })
                       container.classList.remove("show");
                       invoice.style.display ='none'
+                      setTimeout( () => location.reload(), 2000)
                     }
                     const dltoast = document.querySelectorAll('.toast-exit');
                     console.log("button_exit: ",dltoast)
@@ -874,6 +891,7 @@
                         })  
                           container.classList.remove("show");
                           invoice.style.display ='none'
+                          setTimeout( () => location.reload(), 2000)
                           
                       } else if (data.error_Cancel) {
                           const data_err = data.error_Cancel;
@@ -884,6 +902,7 @@
                             duration: 8000
                     
                         })
+                        setTimeout( () => location.reload(), 2000)
                       }
                       const dltoast = document.querySelectorAll('.toast-exit');
                       console.log("button_exit: ",dltoast)
@@ -919,7 +938,7 @@
       const notification = "{{notifi_search}}";
           console.log("waiting notifi search ")
           console.log(notification)
-                  if(notification==='search_success'){
+                  {% comment %} if(notification==='search_success'){
                     toast({
                         title: "Tìm kiếm thành công",
                         content: "bạn vừa thực hiện hành động tìm kiếm thành công",
@@ -927,8 +946,8 @@
                         duration: 8000
                 
                       })
-                  }
-                  else if (notification==='search_err'){
+                  } {% endcomment %}
+                  if (notification==='search_err'){
                     toast({
                         title: "Không tìm thấy kết quả phù hợp",
                         content: "Từ khóa bạn nhập có lẽ không hợp lệ , bạn có thể nhấn vào ? bên ô tìm kiếm để xem thêm thông tin!",

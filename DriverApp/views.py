@@ -6,7 +6,7 @@ from CarownerApp.models import Driver
 from django.contrib.auth import login,logout
 from django.contrib.auth.hashers import check_password
 from LoginApp.backends.custom_auth import CustomerBackend
-from CarownerApp.models import Driver,Orders,Schedules,Vehicle,CustomSession
+from CarownerApp.models import Driver,Orders,Schedules,Vehicle,CustomSession,Income
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.conf import settings
@@ -414,7 +414,7 @@ def search_order(request):
             else:
                 searchvalue = 'search_success'
             return render(request, 'DriverApp/driver.html', {
-                    'driver_orders': filter_orders,
+                    'driver_orders': list(reversed(filter_orders)),
                     'notifi_orders': reversed_list,
                     'all_schedules' : soft_schedules,
                     'my_filter_form' : my_filter_form,
@@ -479,3 +479,36 @@ def change_state(request,driver_id,checkstate):
         return JsonResponse({'error': 'Có lỗi xảy ra vui lòng liên hệ với quản trị viên'}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500) 
+    
+
+
+def confirm_car(request):
+    print("----------------------khởi chạy xác nhận lên xe----------------------------")
+    id_driver = request.driver.id
+    driver = Driver.objects.get(pk=id_driver)
+    try:
+        data= json.loads(request.body)
+        id_order = data.get('id_order')
+        order_cr = Orders.objects.get(pk=id_order)
+        price = order_cr.total_price
+        if order_cr.state_order == 1:
+            return JsonResponse({'error': 'er'})
+        else:
+            try:
+                Ic = Income.objects.get(driver = driver)
+                if Ic:
+                    income = Ic.total_income + price
+                    Ic.total_income = income
+                    order_cr.state_order = True
+                    Ic.save()
+                    order_cr.save()
+                    return JsonResponse({'message': 'ss'})
+            except:
+                order_cr.state_order = True
+                Ic = Income(driver = driver , name_driver = driver.name_driver , total_income = price)    
+                Ic.save()
+                order_cr.save()
+                return JsonResponse({'message': 'ss'})
+            return JsonResponse({'message': 'check_true'})
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Lỗi trong quá trình phân tích chuỗi JSON'}, status=400)

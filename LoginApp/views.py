@@ -250,3 +250,10 @@ def handelChangePassForget(request):
                 return JsonResponse({'error': 'check_false'})
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Lỗi trong quá trình phân tích chuỗi JSON'}, status=400)
+        
+from django.middleware.csrf import get_token
+def getCsrfToken(request):
+    print("Handel get token csrf...........")
+    csrf_token = get_token(request)
+    print("csrf token: ",csrf_token)
+    return JsonResponse({'token':csrf_token})

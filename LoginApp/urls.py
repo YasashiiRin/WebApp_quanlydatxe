@@ -19,4 +19,7 @@ urlpatterns = [
 
     path('handelChangePassForget/',views.handelChangePassForget,name= 'handelChangePassForget'),
     # path('activateD/<str:uid>/<str:token>/',views.activate_driver, name='activateD'),
+
+    #--API with V3
+    path('getCsrfToken/',views.getCsrfToken,name='getCsrfToken'),
 ]

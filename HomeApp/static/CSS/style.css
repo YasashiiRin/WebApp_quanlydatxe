@@ -47,7 +47,7 @@
     color: var(--clr-neutral-900);
   }
   .bg-dark {
-    background: var(--clr-neutral-900);
+    background: #15152a;
     color: var(--clr-neutral-100);
   }
   
@@ -88,7 +88,7 @@
   /* HEADER */
   
   header {
-    padding-block: 1.5rem;
+    padding-block: 1.1rem;
   }
   
   header nav {

@@ -47,7 +47,7 @@
     color: var(--clr-neutral-900);
   }
   .bg-dark {
-    background: var(--clr-neutral-900);
+    background: #15152a;
     color: var(--clr-neutral-100);
   }
   
@@ -88,7 +88,7 @@
   /* HEADER */
   
   header {
-    padding-block: 1.5rem;
+    padding-block: 1.1rem;
     border-bottom: 1px solid 1px solid rgb(255 215 228 / 65%);
   }
   
@@ -192,7 +192,7 @@
     content: "";
     display: block;
     position: absolute;
-    width: 266px;
+    width: 198px;
     height: 50px;
     right: 247px;
     top: 57px;
@@ -219,7 +219,7 @@
   .nav__cta__menu_history_book{
     display: none;
     position: absolute;
-    top: 99px;
+    top: 87px;
     right:247px;
     width: 569px;
     max-height: 367px;
@@ -248,7 +248,7 @@
    .nav__cta__menu{
     display: none;
     position: absolute;
-    top: 99px;
+    top: 86px;
     right:0;
     width: 300px;
     width: 300px;
